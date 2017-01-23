@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Offline Player</string>
+    <string name="video_url">Video URL</string>
+    <string name="download_and_play">Download and Play</string>
+</resources>
