@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.danikula.videocache.CacheListener;
 import com.danikula.videocache.HttpProxyCacheServer;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -34,6 +36,8 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
+import java.io.File;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -41,6 +45,7 @@ public class PlayerActivity extends AppCompatActivity {
 
     private SimpleExoPlayer player;
     @BindView(R.id.videoView) SimpleExoPlayerView simpleExoPlayerView;
+    @BindView(R.id.textView) TextView status;
     private String videoUrl , proxyVideoUrl;
     long position = 0L;
 
@@ -54,6 +59,16 @@ public class PlayerActivity extends AppCompatActivity {
         videoUrl = getIntent().getStringExtra("videoUrl");
         HttpProxyCacheServer cacheServer = OfflinePlayerApplication.getCacheServer(this);
         proxyVideoUrl = cacheServer.getProxyUrl(videoUrl, true);
+        if(cacheServer.isCached(videoUrl)) {
+            status.setText(R.string.playing_offline);
+        }
+        else cacheServer.registerCacheListener(new CacheListener() {
+            @Override
+            public void onCacheAvailable(File cacheFile, String url, int percentsAvailable) {
+                status.setText(getString(R.string.cache_status,percentsAvailable));
+                if(percentsAvailable == 100) status.setText(R.string.playing_offline);
+            }
+        }, videoUrl);
     }
 
     @Override
