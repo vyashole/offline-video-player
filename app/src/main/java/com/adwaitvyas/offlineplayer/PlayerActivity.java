@@ -41,7 +41,6 @@ public class PlayerActivity extends AppCompatActivity {
     private SimpleExoPlayer player;
     @BindView(R.id.videoView) SimpleExoPlayerView simpleExoPlayerView;
     private String videoUrl , proxyVideoUrl;
-    private static final DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
 
     // Activity onCreate
     @Override
@@ -55,6 +54,7 @@ public class PlayerActivity extends AppCompatActivity {
         createPlayer();
         simpleExoPlayerView.setPlayer(player);
         preparePlayer();
+        initPlayerListner();
     }
 
     private void createPlayer() {

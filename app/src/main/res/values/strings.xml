@@ -5,4 +5,7 @@
     <string name="error_invalid_input">Please enter a valid http URL</string>
     <string name="hardcoded_video_url">https://socialcops.com/images/spec/home/header-img-background_video-1920-480.mp4</string>
     <string name="error_generic">Something went wrong</string>
+    <string name="hardcoded_video_url_2">http://res.cloudinary.com/demo/video/upload/w_400/dog.mp4</string>
+    <string name="delete">Delete Cached Files</string>
+    <string name="deleting_videos">Deleting offline videos</string>
 </resources>
