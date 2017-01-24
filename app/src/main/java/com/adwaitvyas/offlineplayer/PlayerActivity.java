@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.danikula.videocache.HttpProxyCacheServer;
@@ -41,6 +42,8 @@ public class PlayerActivity extends AppCompatActivity {
     private SimpleExoPlayer player;
     @BindView(R.id.videoView) SimpleExoPlayerView simpleExoPlayerView;
     private String videoUrl , proxyVideoUrl;
+    long position = 0L;
+
 
     // Activity onCreate
     @Override
@@ -51,9 +54,15 @@ public class PlayerActivity extends AppCompatActivity {
         videoUrl = getIntent().getStringExtra("videoUrl");
         HttpProxyCacheServer cacheServer = OfflinePlayerApplication.getCacheServer(this);
         proxyVideoUrl = cacheServer.getProxyUrl(videoUrl, true);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         createPlayer();
         simpleExoPlayerView.setPlayer(player);
-        preparePlayer();
+        player.seekTo(position);
+        preparePlayer(true);
         initPlayerListner();
     }
 
@@ -71,7 +80,7 @@ public class PlayerActivity extends AppCompatActivity {
         player = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
     }
 
-    private void preparePlayer() {
+    private void preparePlayer(boolean play) {
         // Measures bandwidth during playback. Can be null if not required.
         DefaultBandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
         // Produces DataSource instances through which media data is loaded.
@@ -83,7 +92,7 @@ public class PlayerActivity extends AppCompatActivity {
         MediaSource videoSource = new ExtractorMediaSource(Uri.parse(proxyVideoUrl),
                 dataSourceFactory, extractorsFactory, null, null);
         // Prepare the player with the source and play when ready
-        player.setPlayWhenReady(true);
+        player.setPlayWhenReady(play);
         player.prepare(videoSource);
     }
 
@@ -123,6 +132,7 @@ public class PlayerActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+        position = player.getCurrentPosition();
         player.release();
         super.onStop();
     }
