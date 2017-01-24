@@ -20,10 +20,21 @@ android {
 }
 
 dependencies {
+    //compile jars if any
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // support libs
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
-    compile 'com.danikula:videocache:2.6.4'
+
+    // butterknife
     compile 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+
+    // androidvideocache
+    compile 'com.danikula:videocache:2.6.4'
+
+    //dagger
+    compile 'com.google.dagger:dagger:2.8'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
 }
