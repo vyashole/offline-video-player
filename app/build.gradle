@@ -34,7 +34,6 @@ dependencies {
     // androidvideocache
     compile 'com.danikula:videocache:2.6.4'
 
-    //dagger
-    compile 'com.google.dagger:dagger:2.8'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.8'
+    //Exoplayer
+    compile 'com.google.android.exoplayer:exoplayer:r2.1.1'
 }
